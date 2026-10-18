@@ -1,0 +1,34 @@
+{
+ "frozen_at_utc": "2026-10-18T00:42:57Z",
+ "frozen_by": "claude (opus 5.5), neurasoft",
+ "question": "is a fixed amount of extra memory worth more as a shared, salience-selected stage that any faculty can read (nothing copied), or spread as private slots?",
+ "command": "node src/grid_c2.mjs --seed 40000 --histories 100 --out grid-c2-40000.json",
+ "grid": "K {12,24,48} x slots {40,80} x cross {0.25,0.50} x noise {0.3,0.6,0.9}, 36 cells, seed 40000 + cell index, 100 histories",
+ "primary": {
+  "contrasts": [
+   "stage_single - local_plus",
+   "stage_temporal - local_plus"
+  ],
+  "measure": "total, paired by history, bootstrap 95% CI (4000 resamples)",
+  "rule": "PAYS: mean >= +0.05 and CI lower > 0; COSTS: mean <= -0.05 and CI upper < 0; else NEUTRAL. per cell, per arm."
+ },
+ "secondary": [
+  "stage_temporal - stage_single on revision",
+  "stage_random - stage_single on total (does selection matter)",
+  "oracle_stage - none (cells under 0.05 are UNINFORMATIVE)"
+ ],
+ "prediction": "stage_single PAYS where noise 0.3 and cross 0.50 (it solves addressing); local_plus wins (stage COSTS or NEUTRAL) at noise 0.9; temporal does not beat single on revision",
+ "seen_before": "packet C's result (copying stage never pays) and grid-c2-check (seed 1, 3 histories) shaped this design, not these rules; seeds not reused",
+ "code_sha256": {
+  "src\\analyze_c.mjs": "c1091dcbebcdd69c076ce3b1cfe33ddd62da5e2cf30e729421d2c4ecddd2acbd",
+  "src\\arms.mjs": "053ad36c77de9d64eaba26b9a718e1fe9c118e7bcdb9d4b0b231fad7689f55c4",
+  "src\\arms_c2.mjs": "1fab074287a979a0fff12cd6a3e612814ead2ee068280b7babd3af2f77ee02ef",
+  "src\\grid.mjs": "89f672dfcf4d27ac50126c974a90e738984fffe2336b6d3ea2d0e39567f63f79",
+  "src\\grid_c2.mjs": "b622a4c6135ff2e47ebd774b95273f50c9456ad7bddea4cb93bb85a5e468d1f5",
+  "src\\measure.mjs": "83311461dffe335d11238b7958217aa7bbe3a07ee3752cc5b520a5ed5d07c5ff",
+  "src\\rng.mjs": "80e57da94c1effa06c9de6e1f0545686a9238d88106861b685810b091d6dcce2",
+  "src\\run.mjs": "6d13533d123c986246d801699c6da50c80ab4d7d5f8592b5b73ef5aa5d2a6b93",
+  "src\\run_c2.mjs": "3798a2b8cc38c21fb91a391e132fbb170133e4b70dad64a93c965eda9ec6f29e",
+  "src\\world.mjs": "bce5fd03562f5bb738b13cc932e4b1cf45a70add18c1acd24b5f83434cc22b5a"
+ }
+}

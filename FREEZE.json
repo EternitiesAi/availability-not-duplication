@@ -1,0 +1,31 @@
+{
+ "frozen_at_utc": "2026-10-18T00:29:24Z",
+ "frozen_by": "claude (opus 5.5), neurasoft",
+ "question": "in which conditions does selective availability (a shared stage) beat an ordinary rival that learns whom to ask, at the same bandwidth?",
+ "command": "node src/grid.mjs --seed 30000 --histories 100 --out grid-30000.json",
+ "grid": "slots {20,40,80} x cross {0.10,0.25,0.50} x noise {0.3,0.6,0.9}, 27 cells, seed 30000 + cell index, 100 independent histories per cell",
+ "primary": {
+  "contrasts": [
+   "single_winner - local_only",
+   "temporal - local_only"
+  ],
+  "measure": "total = mean(transfer accuracy, own accuracy), paired by history, bootstrap 95% CI",
+  "rule": "a stage arm PAYS in a cell when its mean contrast >= +0.05 and the CI lower bound > 0; it COSTS when the mean <= -0.05 and the CI upper bound < 0; otherwise NEUTRAL. reported per cell and per arm. the grid's best_stage_minus_local (per-history max of two arms) is biased toward the stage and is NOT used for any verdict."
+ },
+ "secondary": [
+  "temporal - single_winner on total and on revision accuracy (does keeping the alternative help revision?)",
+  "random_stage vs single_winner (does selection matter, or only availability?)",
+  "oracle - none (the ceiling of the cell: a cell whose ceiling is under 0.05 cannot show a 0.05 effect and is marked UNINFORMATIVE)"
+ ],
+ "prediction": "stage arms PAY only where memory is ample (slots 80), crossing is high (0.50) and salience is accurate (noise 0.3); COST where memory is scarce (slots 20); temporal beats single_winner on revision but not on total",
+ "seen_before": "smoke-1 (revision 1 world, seed 1) and smoke-2 (revision 2, seed 2, 30 histories) and grid-check (seed 1, 5 histories); they shaped the world and the grid, not these rules; their seeds are not reused",
+ "code_sha256": {
+  "src\\arms.mjs": "053ad36c77de9d64eaba26b9a718e1fe9c118e7bcdb9d4b0b231fad7689f55c4",
+  "src\\grid.mjs": "89f672dfcf4d27ac50126c974a90e738984fffe2336b6d3ea2d0e39567f63f79",
+  "src\\measure.mjs": "83311461dffe335d11238b7958217aa7bbe3a07ee3752cc5b520a5ed5d07c5ff",
+  "src\\rng.mjs": "80e57da94c1effa06c9de6e1f0545686a9238d88106861b685810b091d6dcce2",
+  "src\\run.mjs": "6d13533d123c986246d801699c6da50c80ab4d7d5f8592b5b73ef5aa5d2a6b93",
+  "src\\world.mjs": "bce5fd03562f5bb738b13cc932e4b1cf45a70add18c1acd24b5f83434cc22b5a"
+ },
+ "not_claimed": "a toy world about when broadcast pays; nothing about experience, luna or any live system"
+}
